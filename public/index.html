@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuarios</title>
+    <!-- Incluir CSS de Bootstrap desde la CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Incluir Font Awesome para iconos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Lista de Usuarios</h1>
+            <a href="/agregar" class="btn btn-primary">
+                <i class="fas fa-user-plus"></i> <!-- Icono de agregar usuario -->
+            </a>
+        </div>
+        <ul id="user-list" class="list-group">
+            <!-- La lista de usuarios se cargará aquí con JavaScript -->
+        </ul>
+    </div>
+
+    <!-- Incluir JavaScript de Bootstrap y sus dependencias -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Script para cargar la lista de usuarios -->
+    <script>
+        // Función para cargar usuarios desde el servidor
+        function loadUsers() {
+            fetch('/usuarios')
+                .then(response => response.json())
+                .then(users => {
+                    const userList = document.getElementById('user-list');
+                    userList.innerHTML = ''; // Limpiar la lista antes de cargar
+
+                    users.forEach(user => {
+                        const userItem = document.createElement('li');
+                        userItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                        userItem.innerHTML = `
+                            <div class="d-flex align-items-center">
+                                <img src="/uploads/${user.imagen}" alt="${user.nombre}" class="rounded-circle mr-3" width="50" height="50">
+                                <span>${user.nombre}</span>
+                            </div>
+                            <div>
+                                <button class="btn btn-warning btn-sm mr-2" onclick="window.location.href='/editar/${user.id}'">Editar</button>
+                                <button class="btn btn-danger btn-sm" onclick="window.location.href='/eliminar/${user.id}'">Eliminar</button>
+                            </div>
+                        `;
+                        userList.appendChild(userItem);
+                    });
+                })
+                .catch(error => console.error('Error al cargar usuarios:', error));
+        }
+
+        // Cargar usuarios cuando la página esté lista
+        document.addEventListener('DOMContentLoaded', loadUsers);
+    </script>
+</body>
+</html>
