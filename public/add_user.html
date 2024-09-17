@@ -33,7 +33,7 @@
                 <h2 class="text-center mb-4">Agregar Usuario</h2>
                 <form action="/agregar" method="post" enctype="multipart/form-data">
                     <!-- Campo de entrada de archivo oculto -->
-                    <input type="file" name="imagen" id="imagen" class="d-none" accept="image/*" onchange="previewImage(event)">
+                    <input type="file" name="imagen" id="imagen" class="d-none" accept="image/png, image/jpeg" onchange="previewImage(event)">
                     <!-- Imagen de avatar que actúa como botón de carga -->
                     <div class="text-center">
                         <img id="preview" src="https://via.placeholder.com/100" alt="Avatar" class="rounded-circle" onclick="document.getElementById('imagen').click();">
